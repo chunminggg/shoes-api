@@ -9,6 +9,11 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
+const mongoose = require('mongoose')
+const cors = require('koa2-cors');
+
+mongoose.Promise = require('bluebird')
+mongoose.connect('mongodb://localhost/blogs', { useMongoClient: true })
 // error handler
 onerror(app)
 
@@ -18,6 +23,7 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
+app.use(cors())
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
